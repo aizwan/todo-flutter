@@ -40,5 +40,15 @@ class TodoError extends TodoState {
 
 class TodoAddSuccessState extends TodoState {
   @override
+  String toString() => 'TodoAddSuccessState';
+}
+
+class TodoUpdateSuccessState extends TodoState {
+  @override
   String toString() => 'TodoUpdateSuccessState';
+}
+
+class TodoDeleteSuccessState extends TodoState {
+  @override
+  String toString() => 'TodoDeleteSuccessState';
 }

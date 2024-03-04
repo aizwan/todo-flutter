@@ -12,6 +12,6 @@ class Todo {
   Todo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     todoText = json['title'];
-    isDone = json['isCompleted'];
+    isDone = json['completed'];
   }
 }

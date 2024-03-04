@@ -10,7 +10,7 @@ class TodoRepository {
     try {
       var response = await _dio.get("$baseURL/api/todo");
 
-      Iterable list = response.data['data'];
+      Iterable list = response.data;
 
       return list.map((model) => Todo.fromJson(model)).toList();
     } catch (e) {
@@ -26,11 +26,10 @@ class TodoRepository {
         data: {"title": title},
       );
 
-      return response.data;
+      return response.statusCode;
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
-      var data = {"data": null};
-      return data;
+      return 404;
     }
   }
 
@@ -38,26 +37,24 @@ class TodoRepository {
     try {
       Response response = await _dio.delete('$baseURL/api/todo/$id');
 
-      return response.data;
+      return response.statusCode;
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
-      var data = {"data": null};
-      return data;
+      return 404;
     }
   }
 
-  Future<dynamic> updateData(String id, String title) async {
+  Future<dynamic> updateData(String id, String title, bool completed) async {
     try {
       Response response = await _dio.patch(
         '$baseURL/api/todo/$id',
-        data: {"title": title},
+        data: {"title": title, "completed": completed},
       );
 
-      return response.data;
+      return response.statusCode;
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
-      var data = {"data": null};
-      return data;
+      return 404;
     }
   }
 }

@@ -39,11 +39,12 @@ class DeleteTodoEvent extends TodoEvent {
 class UpdateTodoEvent extends TodoEvent {
   final String id;
   final String title;
+  final bool completed;
 
-  const UpdateTodoEvent(this.id, this.title);
+  const UpdateTodoEvent(this.id, this.title, this.completed);
 
   @override
   String toString() {
-    return 'UpdateTodoEvent $id, $title';
+    return 'UpdateTodoEvent $id, $title, $completed';
   }
 }

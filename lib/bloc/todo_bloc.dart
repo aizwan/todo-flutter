@@ -14,6 +14,9 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     });
 
     on<GetListTodoEvent>(_onGetListTodo);
+    on<AddTodo>(_onAddTodo);
+    on<UpdateTodoEvent>(_onUpdateTodo);
+    on<DeleteTodoEvent>(_onDeleteTodo);
   }
 
   Future<void> _onGetListTodo(
@@ -23,6 +26,36 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       emit(TodoLoaded(todo: todo));
     } else {
       emit(TodoEmpty());
+    }
+  }
+
+  Future<void> _onUpdateTodo(
+      UpdateTodoEvent event, Emitter<TodoState> emit) async {
+    final int statusCode = await TodoRepository()
+        .updateData(event.id, event.title, event.completed);
+    if (statusCode == 200) {
+      emit(TodoUpdateSuccessState());
+    } else {
+      emit(TodoError());
+    }
+  }
+
+  Future<void> _onAddTodo(AddTodo event, Emitter<TodoState> emit) async {
+    final int statusCode = await TodoRepository().postData(event.title);
+    if (statusCode == 201) {
+      emit(TodoAddSuccessState());
+    } else {
+      emit(TodoError());
+    }
+  }
+
+  Future<void> _onDeleteTodo(
+      DeleteTodoEvent event, Emitter<TodoState> emit) async {
+    final int statusCode = await TodoRepository().deleteData(event.id);
+    if (statusCode == 204) {
+      emit(TodoDeleteSuccessState());
+    } else {
+      emit(TodoError());
     }
   }
 }
